@@ -7,44 +7,32 @@
 <head>
     <title>View Expenses</title>
 
-    <style>
-
-        body{
-            font-family: Arial, sans-serif;
-            margin:40px;
-            background:#f5f5f5;
-        }
-
-        h2{
-            text-align:center;
-        }
-
-        table{
-            width:100%;
-            border-collapse:collapse;
-            background:white;
-        }
-
-        th,td{
-            border:1px solid #ddd;
-            padding:12px;
-            text-align:center;
-        }
-
-        th{
-            background:#1976D2;
-            color:white;
-        }
-
-        tr:nth-child(even){
-            background:#f2f2f2;
-        }
-
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 
 </head>
 
 <body>
+    <header>
+
+        <h1>Smart Expense Analyzer</h1>
+        
+        </header>
+        
+        <nav>
+        
+        <a href="dashboard.jsp">Dashboard</a>
+        
+        <a href="index.jsp">Add Expense</a>
+        
+        <a href="viewExpenses" class="active">Expenses</a>
+        
+        <a href="#">Budget</a>
+        
+        <a href="#">Reports</a>
+        
+        </nav>
+        
+        <div class="container">
 
 <h2>Expense List</h2>
 
@@ -58,7 +46,7 @@
     <th>Category</th>
     <th>Date</th>
     <th>Notes</th>
-
+    <th>Action</th>
 </tr>
 
 <%
@@ -85,7 +73,17 @@ for(Expense expense:expenses){
 <td><%=expense.getExpenseDate()%></td>
 
 <td><%=expense.getNotes()%></td>
+<td>
+    <a class="btn" href="updateExpense?id=<%=expense.getId()%>">
+        Edit
+    </a>
 
+    <a class="btn delete-btn"
+       href="deleteExpense?id=<%=expense.getId()%>"
+       onclick="return confirm('Are you sure you want to delete this expense?');">
+        Delete
+    </a>
+</td>
 </tr>
 
 <%
@@ -97,7 +95,7 @@ for(Expense expense:expenses){
 %>
 
 </table>
-
+</div>
 </body>
 
 </html>
