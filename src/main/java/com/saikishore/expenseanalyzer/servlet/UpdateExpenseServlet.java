@@ -2,6 +2,7 @@ package com.saikishore.expenseanalyzer.servlet;
 
 import com.saikishore.expenseanalyzer.dao.ExpenseDAO;
 import com.saikishore.expenseanalyzer.model.Expense;
+import com.saikishore.expenseanalyzer.model.User;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,13 +19,30 @@ public class UpdateExpenseServlet extends HttpServlet {
                          HttpServletResponse response)
             throws ServletException, IOException {
 
+        // Check if user is logged in
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("loggedInUser") == null) {
+            response.sendRedirect(request.getContextPath() + "/login-page");
+            return;
+        }
+
+        User user = (User) session.getAttribute("loggedInUser");
+        int userId = user.getId();
+
         int id = Integer.parseInt(request.getParameter("id"));
 
         ExpenseDAO dao = new ExpenseDAO();
 
-        Expense expense = dao.getExpenseById(id);
+        Expense expense = dao.getExpenseById(id, userId);
+
+        if (expense == null) {
+            response.sendRedirect(request.getContextPath() + "/viewExpenses");
+            return;
+        }
 
         request.setAttribute("expense", expense);
+        request.setAttribute("activePage", "expenses");
 
         request.getRequestDispatcher("edit-expense.jsp")
                .forward(request, response);
@@ -34,6 +52,17 @@ public class UpdateExpenseServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response)
             throws ServletException, IOException {
+
+        // Check if user is logged in
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("loggedInUser") == null) {
+            response.sendRedirect(request.getContextPath() + "/login-page");
+            return;
+        }
+
+        User user = (User) session.getAttribute("loggedInUser");
+        int userId = user.getId();
 
         int id = Integer.parseInt(request.getParameter("id"));
 
@@ -51,13 +80,14 @@ public class UpdateExpenseServlet extends HttpServlet {
         expense.setCategory(category);
         expense.setExpenseDate(expenseDate);
         expense.setNotes(notes);
+        expense.setUserId(userId);
 
         ExpenseDAO dao = new ExpenseDAO();
 
         boolean updated = dao.updateExpense(expense);
 
         if (updated) {
-            response.sendRedirect("viewExpenses");
+            response.sendRedirect(request.getContextPath() + "/viewExpenses");
         } else {
             response.getWriter().println("Failed to Update Expense!");
         }

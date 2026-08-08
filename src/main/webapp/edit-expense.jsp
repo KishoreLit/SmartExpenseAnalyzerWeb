@@ -6,33 +6,7 @@ Expense expense = (Expense) request.getAttribute("expense");
 %>
 
 <!DOCTYPE html>
-<html>
-<head>
-
-    <title>Edit Expense</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-
-<body>
-       <header>
-
-              <h1>Smart Expense Analyzer</h1>
-              
-              </header>
-              
-              <nav>
-              
-              <a href="dashboard.jsp">Dashboard</a>
-              
-              <a href="index.jsp">Add Expense</a>
-              
-              <a href="viewExpenses">Expenses</a>
-              
-              <a href="#">Budget</a>
-              
-              <a href="#">Reports</a>
-              
-              </nav>
+<%@ include file="WEB-INF/header.jsp" %>
               
               <div class="container">
 <h2>Edit Expense</h2>
@@ -104,7 +78,4 @@ Expense expense = (Expense) request.getAttribute("expense");
     </button>
 
 </form>
-</div>
-</body>
-
-</html>
+<%@ include file="WEB-INF/footer.jsp" %>

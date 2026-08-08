@@ -2,7 +2,6 @@ package com.saikishore.expenseanalyzer.servlet;
 
 import com.saikishore.expenseanalyzer.dao.BudgetDAO;
 import com.saikishore.expenseanalyzer.dao.ExpenseDAO;
-import com.saikishore.expenseanalyzer.model.Expense;
 import com.saikishore.expenseanalyzer.model.User;
 
 import jakarta.servlet.ServletException;
@@ -13,10 +12,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
-@WebServlet("/viewExpenses")
-public class ViewExpensesServlet extends HttpServlet {
+@WebServlet("/reports")
+public class ReportsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request,
@@ -44,38 +43,14 @@ if (!budgetDAO.isBudgetSet(userId)) {
 
 }
 
-        // Get search parameters
-        String title = request.getParameter("title");
-        String category = request.getParameter("category");
-        String fromDate = request.getParameter("fromDate");
-        String toDate = request.getParameter("toDate");
+        ExpenseDAO dao = new ExpenseDAO();
 
-        ExpenseDAO expenseDAO = new ExpenseDAO();
-        List<Expense> expenses;
+        Map<String, Double> categorySummary = dao.getCategorySummary(userId);
 
-        // If no search filters are applied, show all expenses
-        if ((title == null || title.isBlank()) &&
-            (category == null || category.isBlank()) &&
-            (fromDate == null || fromDate.isBlank()) &&
-            (toDate == null || toDate.isBlank())) {
+        request.setAttribute("categorySummary", categorySummary);
+        request.setAttribute("activePage", "reports");
 
-            expenses = expenseDAO.getAllExpenses(userId);
-
-        } else {
-
-            expenses = expenseDAO.searchExpenses(
-                    userId,
-                    title,
-                    category,
-                    fromDate,
-                    toDate
-            );
-        }
-
-        request.setAttribute("expenses", expenses);
-        request.setAttribute("activePage", "expenses");
-
-        request.getRequestDispatcher("view-expenses.jsp")
+        request.getRequestDispatcher("reports.jsp")
                .forward(request, response);
     }
 }

@@ -10,6 +10,7 @@ public class Expense {
     private String category;
     private LocalDate expenseDate;
     private String notes;
+    private int userId;
 
     public Expense() {
     }
@@ -69,6 +70,13 @@ public class Expense {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+    public int getUserId() {
+        return userId;
+    }
+    
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Override

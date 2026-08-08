@@ -1,6 +1,7 @@
 package com.saikishore.expenseanalyzer.servlet;
 
 import com.saikishore.expenseanalyzer.dao.ExpenseDAO;
+import com.saikishore.expenseanalyzer.model.User;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,14 +17,26 @@ public class DeleteExpenseServlet extends HttpServlet {
                          HttpServletResponse response)
             throws ServletException, IOException {
 
+        // Check if user is logged in
+        HttpSession session = request.getSession(false);
+
+        if (session == null || session.getAttribute("loggedInUser") == null) {
+            response.sendRedirect(request.getContextPath() + "/login-page");
+            return;
+        }
+
+        // Get logged-in user
+        User user = (User) session.getAttribute("loggedInUser");
+        int userId = user.getId();
+
         int id = Integer.parseInt(request.getParameter("id"));
 
         ExpenseDAO dao = new ExpenseDAO();
 
-        boolean deleted = dao.deleteExpense(id);
+        boolean deleted = dao.deleteExpense(id, userId);
 
         if (deleted) {
-            response.sendRedirect("viewExpenses");
+            response.sendRedirect(request.getContextPath() + "/viewExpenses");
         } else {
             response.getWriter().println("Failed to Delete Expense!");
         }
