@@ -25,7 +25,7 @@
 <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white">
 <img src="https://img.shields.io/badge/Render-Deployed-46E3B7?style=flat-square">
 
-</div>
+
 
 ---
 
@@ -119,7 +119,7 @@ The application follows a layered architecture using **Servlets, JSP, DAO, JDBC,
 </td>
 </tr>
 </table>
-
+</div>
 ---
 
 
