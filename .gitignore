@@ -10,4 +10,4 @@ target/
 # IntelliJ
 .idea/
 
-*.iml
+*.imlexpense_db_backup.sql
