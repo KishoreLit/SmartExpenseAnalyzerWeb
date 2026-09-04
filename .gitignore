@@ -10,4 +10,4 @@ target/
 # IntelliJ
 .idea/
 
-*.imlexpense_db_backup.sql
+expense_db_backup.sql
