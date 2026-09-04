@@ -9,7 +9,7 @@
     <display-name>Smart Expense Analyzer</display-name>
 
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
+    <welcome-file>login.jsp</welcome-file>
+</welcome-file-list>
 
 </web-app>
