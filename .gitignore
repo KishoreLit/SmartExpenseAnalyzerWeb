@@ -11,3 +11,5 @@ target/
 .idea/
 
 expense_db_backup.sql
+
+*.class
